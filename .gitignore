@@ -244,7 +244,7 @@ crashlytics-build.properties
 fabric.properties
 
 # GoogleApiKey (debug and release)
-google_maps_api.xml
+maps_api_key.xml
 
 ### AndroidStudio Patch ###
 
