@@ -243,6 +243,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# GoogleApiKey (debug and release)
+google_maps_api.xml
+
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
