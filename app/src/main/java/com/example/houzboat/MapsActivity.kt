@@ -41,5 +41,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker is Sydney"))
         mMap.addMarker(MarkerOptions().position(sydneyOld).title("Marker is SydneyOld"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
+        var hasUserPermission = PermissionsHelper(this).hasUserPermission()
     }
 }
