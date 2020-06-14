@@ -249,3 +249,4 @@ maps_api_key.xml
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+jarRepositories.xml
