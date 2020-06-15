@@ -22,19 +22,17 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#          command: ./gradlew build
+      - run:
+          command: ./gradlew build
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
           path: app/build/reports
           destination: reports
-
   check_code:
     executor: android_executor
     steps:
       - run:
           name: Run Linters
           command: ./gradlew lint
-
   unit_tests:
     executor: android_executor
     steps:
