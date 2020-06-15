@@ -57,14 +57,16 @@ workflows:
                 - master
       - check_code:
           context: build-context
-          requires: build
+          requires:
+            - build
           filters:
             branches:
               ignore:
                 - master
       - unit_tests:
           context: build-context
-          requires: build
+          requires:
+            - build
           filters:
             branches:
               ignore:
