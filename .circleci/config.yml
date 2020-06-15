@@ -24,24 +24,26 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           command: ./gradlew build
-      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
-          path: app/build/reports
-          destination: reports
   check_code:
     executor: android_executor
     steps:
       - run:
           name: Run Linters
-          command: ./gradlew lint
+          command: sudo chmod +x ./gradlew lint
   unit_tests:
     executor: android_executor
     steps:
       - run:
           name: Run Tests
-          command: ./gradlew test
+          command: sudo chmod +x ./gradlew test
+  storage:
+    executor: android_executor
+    steps:
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
-
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path: app/build/reports
+          destination: reports
 
 workflows:
   version: 2.1
@@ -62,6 +64,15 @@ workflows:
       - unit_tests:
           requires:
             - build
+          filters:
+            branches:
+              ignore:
+                - master
+      - storage:
+          requires:
+            - build
+            - check_code
+            - unit_tests
           filters:
             branches:
               ignore:
