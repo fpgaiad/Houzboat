@@ -24,7 +24,7 @@ jobs:
   check_code:
     executor: android_executor
     steps:
-      - checkout
+#      - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
@@ -33,7 +33,7 @@ jobs:
   unit_tests:
     executor: android_executor
     steps:
-      - checkout
+#      - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
