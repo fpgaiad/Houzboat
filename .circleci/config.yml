@@ -1,12 +1,13 @@
 version: 2.1
+executors:
+  android_executor: android/android
 
 orbs:
  android: circleci/android@0.2.0
 
 jobs:
   build:
-    executor: android/android
-        
+    executor: android_executor
     steps:
       - checkout
       - restore_cache:
@@ -21,13 +22,50 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
 #      - run:
 #          command: ./gradlew build
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/ 
           path: app/build/reports
           destination: reports
+
+  check_code:
+    executor: android_executor
+    steps:
+      - run:
+          name: Run Linters
+          command: ./gradlew lint
+
+  unit_tests:
+    executor: android_executor
+    steps:
+      - run:
+          name: Run Tests
+          command: ./gradlew test
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
+
+
+workflows:
+  version: 2.1
+  on_commit:
+    jobs:
+      - build:
+          context: build-context
+          filters:
+            branches:
+              ignore:
+                - master
+      - check_code:
+          context: build-context
+          requires: build
+          filters:
+            branches:
+              ignore:
+                - master
+      - unit_tests:
+          context: build-context
+          requires: build
+          filters:
+            branches:
+              ignore:
+                - master
