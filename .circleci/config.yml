@@ -25,8 +25,6 @@ jobs:
     executor: android_executor
     steps:
       - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Linters
           command: ./gradlew lint
@@ -34,16 +32,14 @@ jobs:
     executor: android_executor
     steps:
       - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
           command: ./gradlew test
+      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: app/build/test-results
   storage:
     executor: android_executor
     steps:
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
