@@ -24,18 +24,18 @@ jobs:
   check_code:
     executor: android_executor
     steps:
-#      - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - checkout
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Linters
           command: ./gradlew lint
   unit_tests:
     executor: android_executor
     steps:
-#      - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - checkout
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
           command: ./gradlew test
